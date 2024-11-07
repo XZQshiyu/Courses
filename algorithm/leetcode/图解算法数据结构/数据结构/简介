@@ -1,0 +1,130 @@
+## 数据结构简介
+
+![image-20230904155043557](./assets/image-20230904155043557.png)
+
+### 数组（array）
+
+将相同类型的元素存储于连续内存空间的数据结构，长度不可变
+
+初始化方法：
+
+```c++
+int array[5];
+array[0] = 2;
+array[1] = 3;
+array[2] = 1;
+array[3] = 0;
+array[4] = 2;
+```
+
+另一种直接赋值的方法
+
+```c++
+int array[] = {2,3,1,0,2}
+```
+
+![image-20230904155235056](./assets/image-20230904155235056.png)
+
+#### 可变数组
+
+基于数组和扩容机制实现
+
+常用操作：访问元素、添加元素、删除元素
+
+```c++
+vector<int> array;
+// 向尾部添加元素
+array.push_back(2);
+array.push_back(3);
+array.push_back(1);
+array.push_back(0);
+array.push_back(2);
+```
+
+### 栈（stack）
+
+先入后出，通过数组或者链表实现
+
+```c++
+stack<int> stack;
+```
+
+常用操作：
+
+- 入栈（push）
+- 出栈（pop）
+- 空栈（empty）
+- 长度（size）
+- 栈顶元素（top）
+
+```c++
+stack<int> stack;
+int value;
+stack.push(x);	//x压入栈顶
+stack.top();	//栈顶元素
+stack.pop();	//删除栈顶元素
+stack.size();	//栈中元素个数
+stack.empty();	//检查栈是否为空，为空返回true
+```
+
+![image-20230904162432134](./assets/image-20230904162432134.png)
+
+### 队列（queue）
+
+先入先出（FIFO），可使用链表实现
+
+```c++
+queue<int> queue;
+```
+
+常用操作：
+
+- 入队（push）
+- 出队（pop）
+- 元素个数（size）
+- 队列为空（empty）
+- 队列第一个元素（front）
+- 队列最后一个元素（back）
+
+```c++
+queue<int> queue;
+int value;
+int front ,back;
+queue.push(value);
+queue.pop();
+queue.empty();
+queue.size();
+front = queue.front();
+back = queue.back();
+```
+
+![image-20230904162843335](./assets/image-20230904162843335.png)
+
+### 链表（linklist）
+
+链表以节点为单位，每个元素都是一个独立对象，在内存空间的存储是非连续的。
+
+链表的节点对象具有两个成员变量：
+
+- 值（val）
+- 后继节点引用（next）
+
+```c++
+struct ListNode {
+    int val;	//节点值
+   	ListNode *next;	//后继节点引用
+    ListNode(int x) :val(x),next(NULL) {}
+};
+```
+
+实例化
+
+```c++
+ListNode *n1 = new ListNode(4);
+ListNode *n2 = new ListNode(5);
+ListNode *n3 = new ListNode(1);
+n1->next = n2;
+n2->next = n3;
+```
+
+![image-20230905141400401](./assets/image-20230905141400401.png)

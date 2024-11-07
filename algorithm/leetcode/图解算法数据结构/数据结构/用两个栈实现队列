@@ -1,0 +1,128 @@
+### request
+
+>用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+>
+
+#### 示例
+
+- 示例1
+
+  ```text
+  输入：
+  ["CQueue","appendTail","deleteHead","deleteHead","deleteHead"]
+  [[],[3],[],[],[]]
+  输出：[null,null,3,-1,-1]
+  ```
+
+- 示例2
+
+  ```text
+  输入：
+  ["CQueue","deleteHead","appendTail","appendTail","deleteHead","deleteHead"]
+  [[],[],[5],[2],[],[]]
+  输出：[null,-1,null,null,5,2]。
+  ```
+
+#### 提示
+
+-  `1 <= values <= 10000`
+- 最多会对 appendTail、deleteHead 进行10000次调用
+
+### 题解
+
+用一个栈实现的话，需要让所有元素出栈，删除栈底，然后剩下元素重新入栈
+
+列表倒序可使用双栈实现：循环执行A出栈则加入栈B，这样栈B就是栈A的一个倒序，直到栈A为空，然后栈B删除栈顶元素，再让栈B的元素重新入栈即可。
+
+![image-20230904170431266](./assets/image-20230904170431266.png)
+
+函数设计：
+
+- 加入队尾 appendTail() ： 将数字 val 加入栈 A 即可。
+- 删除队首deleteHead() ： 有以下三种情况。
+  - 当栈 B 不为空： B中仍有已完成倒序的元素，因此直接返回 B 的栈顶元素。
+  - 否则，当 A 为空： 即两个栈都为空，无元素，因此返回 -1 。
+  - 否则： 将栈 A 元素全部转移至栈 B 中，实现元素倒序，并返回栈 B 的栈顶元素。
+
+#### 第一种代码实现：
+
+粗暴，但是慢
+
+```c++
+class CQueue {
+public:
+    stack<int> stack_A, stack_B;
+    CQueue() {}
+    
+    void appendTail(int value) {
+        stack_A.push(value);
+    }
+    
+    int deleteHead() {
+        int val;
+        if(stack_A.empty())
+            return -1;
+        while(!stack_A.empty())
+        {
+            val = stack_A.top();
+            stack_A.pop();
+            stack_B.push(val);
+        }
+        int reval = stack_B.top();
+        stack_B.pop();
+        while(!stack_B.empty())
+        {
+            val = stack_B.top();
+            stack_A.push(val);
+            stack_B.pop();
+        }   
+        return reval;
+    }
+};
+```
+
+#### 测试结果：
+
+![image-20230904171131484](./assets/image-20230904171131484.png)
+
+#### 第二种代码实现：
+
+```c++
+class CQueue {
+public:
+    stack<int> stack_A, stack_B;
+    CQueue() {}
+    
+    void appendTail(int value) {
+        stack_A.push(value);
+    }
+    
+    int deleteHead() {
+        if(!stack_B.empty())
+        {
+            int value = stack_B.top();
+            stack_B.pop();
+            return value;
+        }
+        else if(stack_A.empty())
+            return -1;
+        else 
+        {
+            while(!stack_A.empty())
+            {
+                int value = stack_A.top();
+                stack_A.pop();
+                stack_B.push(value);
+            }
+            int temp = stack_B.top();
+            stack_B.pop();
+            return temp;
+        }
+    }
+};
+
+```
+
+#### 测试结果
+
+![image-20230904172309912](./assets/image-20230904172309912.png)

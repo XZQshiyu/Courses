@@ -1,0 +1,77 @@
+### request
+
+>定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
+
+#### 示例：
+
+```c++
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.min();   --> 返回 -3.
+minStack.pop();
+minStack.top();      --> 返回 0.
+minStack.min();   --> 返回 -2.
+```
+
+#### 提示：
+
+>1. 各函数的调用总次数不超过20000次
+>
+>
+
+### 题解
+
+问题的关键在于，不能通过遍历一遍stack实现一种O(n)的算法，而是要求一种O（1）的算法，可以空间换时间，维护另一个栈，始终保持栈中元素按母栈的降序排列，这样栈顶就是最小元素。
+
+![image-20230904165028452](./assets/image-20230904165028452.png)
+
+并不要求栈B包含栈A中所有元素（如果是排序的那必然要比较，不是O（1））
+
+只需要考虑如何维护栈B
+
+- 元素入栈时，考虑此时栈B栈顶位置元素是否比当前元素x更大，如果更大则需要入栈B，否则对栈A的最小值没有影响，且考虑到栈后入先出的特性，x是否出栈对min的结果没有影响，min只存在于x前的元素（最小的已经在栈B中），或者x之后入栈的可能元素
+- 出栈时，要保持栈B和栈A的一致性，因此要看栈A出栈的元素是否是栈B的top，如果是则一起出栈
+
+这样的MinStack显然只能从空栈开始维护，如果栈A本身非空，从栈A出发构造栈B还是一个复杂的过程
+
+#### 代码实现
+
+```c++
+class MinStack {
+    public:
+    /** initialize your data structure here. */
+    stack<int> stack_A, stack_B;
+    MinStack() {}
+
+    void push(int x) {
+        stack_A.push(x);
+        if(stack_B.empty())
+            stack_B.push(x);
+        else 
+        {
+            if(stack_B.top() >= x)
+                stack_B.push(x);
+        }
+    }
+
+    void pop() {
+        if(stack_B.top() == stack_A.top())
+            stack_B.pop();
+        stack_A.pop();
+    }
+
+    int top() {
+        return stack_A.top();
+    }
+
+    int min() {
+        return stack_B.top();
+    }
+};
+```
+
+#### 提交结果
+
+![image-20230904165905617](./assets/image-20230904165905617.png)
