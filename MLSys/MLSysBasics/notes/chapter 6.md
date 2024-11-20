@@ -493,6 +493,13 @@ in SSP, **each worker**(such as a GPU or compute node) can use slightly outdated
 
 #### 管道并行
 
+16个GPU
+
+- batch_size = 2048
+- mini_batch = 512
+- micro_batch = 128
+- DP = PP = 4
+
 Vertically slicing the model gives each  GPU its own subset of layers
 
 ![image-20241119144612860](./assets/image-20241119144612860.png)
@@ -505,6 +512,8 @@ Vertically slicing the model gives each  GPU its own subset of layers
 ![image-20241119144843538](./assets/image-20241119144843538.png)
 
 PP+DP：对应的stages之间交换梯度更新信息
+
+
 
 ![image-20241119144923912](./assets/image-20241119144923912.png)
 
