@@ -539,7 +539,7 @@ Microbatch数量和Stage数量可以不相等
 
 ##### 1.激活内存（Activation Memory） 管理和Checkpointing
 
-激活内存的公式，通常与 checkpointing结合使用。在使用checkpointing时，某些层的激活（intermediate activations）会被报错，并且可以在需要时按需重新计算。这使得内存开销得以减少，因为不是每一层的所有激活都需要保存在内存中
+激活内存的公式，通常与 checkpointing 结合使用。在使用 checkpointing 时，某些层的激活（intermediate activations）会被报错，并且可以在需要时按需重新计算。这使得内存开销得以减少，因为不是每一层的所有激活都需要保存在内存中
 
 $O(N + \frac{L}{K} \times \frac{N}{M})$
 
